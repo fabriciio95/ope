@@ -33,11 +33,11 @@ public class ClienteController {
 		List<Usuario> clientes;
 		
 		if(nome != null) 
-			clientes = usuarioRepository.findByNomeContainingIgnoreCase(nome);
+			clientes = usuarioRepository.buscarClientesPorNome(nome);
 		else if (telefone != null) 
-			clientes = usuarioRepository.findByTelefoneContaining(telefone);
+			clientes = usuarioRepository.buscarClientesPorTelefone(telefone);
 		else
-			clientes = usuarioRepository.findAll();
+			clientes = usuarioRepository.buscarClientes();
 		
 		return ResponseEntity.ok(clienteMapper.toListaDto(clientes));
 	}
