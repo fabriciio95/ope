@@ -24,12 +24,20 @@ public class ClienteController {
 	private ClienteMapper clienteMapper;
 	
 	@GetMapping
-	public ResponseEntity<List<ClienteDto>> buscarClientes(@RequestParam(name = "nome", required = false) String nome) {
-		if(nome == null) {
-			return ResponseEntity.badRequest().build();
-		}
+	public ResponseEntity<List<ClienteDto>> buscarClientes(@RequestParam(required = false) String nome, 
+			@RequestParam(required = false) String telefone) {
 		
-		List<Usuario> clientes = usuarioRepository.findByNomeContainingIgnoreCase(nome);
+		if(nome != null && telefone != null)
+			return ResponseEntity.badRequest().build();
+		
+		List<Usuario> clientes;
+		
+		if(nome != null) 
+			clientes = usuarioRepository.findByNomeContainingIgnoreCase(nome);
+		else if (telefone != null) 
+			clientes = usuarioRepository.findByTelefoneContaining(telefone);
+		else
+			clientes = usuarioRepository.findAll();
 		
 		return ResponseEntity.ok(clienteMapper.toListaDto(clientes));
 	}

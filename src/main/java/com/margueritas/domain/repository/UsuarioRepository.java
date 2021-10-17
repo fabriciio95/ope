@@ -11,4 +11,6 @@ import com.margueritas.domain.model.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
 	List<Usuario> findByNomeContainingIgnoreCase(String usuario);
+	
+	List<Usuario> findByTelefoneContaining(String telefone);
 }
